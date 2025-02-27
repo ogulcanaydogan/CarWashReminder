@@ -25,7 +25,7 @@ def lambda_handler(event, context):
         # If the end date has passed, stop the service and send a final notification
         message = "The car wash reminder service has ended. Thank you for participating!"
         sns_client.publish(
-            TopicArn="arn:aws:sns:us-east-1:211125457564:CarWashReminder",  # Correct ARN with region and account ID
+            TopicArn="aws:sns:us-east-1:211125457564:CarWashReminder",  # Correct ARN with region and account ID
             Message=message,
             Subject='Car Wash Service Ended'
         )
@@ -42,7 +42,7 @@ def lambda_handler(event, context):
 
             # Send the message via SNS to email and phone
             sns_client.publish(
-                TopicArn="arn:aws:sns:us-east-1:211125457564:CarWashReminder",  # Correct ARN
+                TopicArn="aws:sns:us-east-1:211125457564:CarWashReminder",  # Correct ARN
                 Message=message,
                 Subject='Car Wash Reminder'
             )
