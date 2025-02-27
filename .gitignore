@@ -25,3 +25,4 @@ override.tf.json
 
 # Ignore backup files created by text editors
 *~
+*.hcl
