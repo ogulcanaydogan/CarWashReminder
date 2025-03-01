@@ -1,101 +1,128 @@
+
 # CarWashReminder
 
-A simple AWS Lambda function that sends daily reminders to different people for their turn to wash the car. The reminders are sent via **Amazon SNS** and can be delivered through **SMS** or **Email**.
-
-The reminders are scheduled to rotate through a group of friends (Ziya, Omer, Ogulcan, and Mesut). The cycle repeats every 4 days, and only the person assigned to that day receives the reminder.
+**CarWashReminder** is an AWS-based solution that automates car wash reminders using AWS Lambda, Amazon SNS, and CloudWatch. The system sends daily reminders to a group of friends for their assigned car wash day. The schedule is cyclic, and the system automatically unsubscribes from notifications once the scheduled period ends.
 
 ## Features
 
-- **Automated reminders**: Sends daily reminders for car washing.
-- **SNS-based notifications**: Sends notifications via SMS and Email using Amazon SNS.
-- **Customizable reminder schedule**: Customize the rotation of who gets the reminder each day.
-- **End-date handling**: Automatically unsubscribes from SNS when the scheduled date range ends.
+- **Automated Car Wash Reminders**: Sends daily notifications to the person assigned to wash the car.
+- **SNS Notifications**: Uses Amazon SNS to deliver reminders via SMS or email.
+- **Customizable Schedule**: The system uses a rotating schedule where each friend is assigned a specific day in a repeating 4-day cycle.
+- **Automatic Unsubscription**: Unsubscribes users from reminders after the scheduled period has ended.
 
 ## Workflow
 
-1. **Car Wash Rotation**: The function assigns each person to a specific day in a repeating cycle:
-    - Day 1: Ziya
-    - Day 2: Omer
-    - Day 3: Ogulcan
-    - Day 4: Mesut
-    - After Day 4, the cycle repeats from Ziya.
+1. **Rotation of Reminders**:
+   - Day 1: Ziya
+   - Day 2: Omer
+   - Day 3: Ogulcan
+   - Day 4: Mesut
+   - The cycle repeats after Day 4.
    
-2. **Notifications**: The function sends a reminder via Amazon SNS to the correct person based on the day of the cycle.
-
-3. **Subscription Management**: The Lambda function automatically unsubscribes all SNS subscriptions when the scheduled date range is over.
+2. **Unsubscribing**:
+   - Once the **scheduled period** ends (based on the configured start and end date), the system automatically unsubscribes all users from SNS.
 
 ## Prerequisites
 
-- An **AWS account** with access to **AWS Lambda**, **Amazon SNS**, and **AWS CloudWatch**.
-- The **SNS Subscription ARNs** for each person (to receive SMS or Email notifications).
-- **Terraform** installed to deploy infrastructure.
+Before deploying the solution, you’ll need:
+
+- **AWS Account** with access to **AWS Lambda**, **SNS**, **CloudWatch**, and **IAM**.
+- **SNS Subscription ARNs** for each user (SMS/Email).
+- **Terraform** to provision the necessary AWS resources.
 
 ## Getting Started
 
 ### 1. Clone the Repository
 
+Start by cloning the repository:
+
 ```bash
 git clone https://github.com/ogulcanaydogan/CarWashReminder.git
 cd CarWashReminder
+```
+
+### 2. Configure AWS CLI
+
+Ensure that your AWS CLI is configured with the appropriate credentials:
+
 ```bash
-
-2. Set up AWS Resources using Terraform
-This project uses Terraform to provision the necessary AWS resources such as SNS topics, Lambda functions, and CloudWatch events.
-
-Configure AWS CLI: Make sure your AWS credentials are configured using the AWS CLI.
-bash
-Copy
 aws configure
-Run Terraform commands:
-bash
-Copy
-terraform init  # Initialize Terraform
-terraform plan  # Preview the changes
-terraform apply # Apply the changes and create AWS resources
-This will create the necessary SNS topic, subscriptions, and Lambda function, as well as set up a CloudWatch event to trigger the Lambda function daily.
+```
 
-3. Deploy Lambda Function
-The Lambda function is written in Python and deployed as a ZIP file.
+### 3. Deploy Infrastructure with Terraform
 
-Ensure the Lambda function code is correctly zipped as lambda_function.zip.
-The Lambda function is triggered daily by CloudWatch Events.
-4. SNS Subscription ARNs
-Update the sns_subscription_arns in the Lambda function code with the actual Subscription ARNs of the users. You can find these ARNs in the SNS Console for each subscription.
+The solution uses **Terraform** to provision the necessary AWS resources such as **SNS**, **Lambda**, and **CloudWatch Events**.
 
-5. Test the Lambda Function
-You can manually test the Lambda function in the AWS Lambda Console by creating a simple test event (e.g., {}). Check the CloudWatch logs to verify that the correct person receives the reminder.
+- **Initialize Terraform**:
 
-6. Unsubscribe Logic
-If the end date of the scheduled period is passed, the Lambda function will automatically unsubscribe from the SNS topic to prevent further notifications.
+```bash
+terraform init
+```
 
-Example SNS Subscription ARN
-Here are the SNS Subscription ARNs for each person:
+- **Plan the Terraform deployment**:
 
-Ziya: arn:aws:sns:us-east-1:211125457564:CarWashReminder:92dc4f1a-3ca5-4009-b918-50f4c370b403
-Omer: arn:aws:sns:us-east-1:211125457564:CarWashReminder:57e4c29a-26cb-4c9f-9d26-10b1114d9dc3
-Ogulcan: arn:aws:sns:us-east-1:211125457564:CarWashReminder:a77c881f-f877-461d-8aa2-8ca7e5d010e
-Mesut: arn:aws:sns:us-east-1:211125457564:CarWashReminder:b7cbca87-0676-4733-852c-9aacaefa864f
-Replace these ARNs in the sns_subscription_arns dictionary in the code to ensure that notifications are sent to the correct person.
+```bash
+terraform plan
+```
 
-Troubleshooting
-No notifications sent: Make sure the SNS subscription is correctly confirmed (check for confirmation emails for email subscriptions, and ensure phone numbers are properly subscribed).
-Incorrect notifications: Verify that the days elapsed logic is correctly calculating the current day and selecting the appropriate person.
-Subscription issues: Ensure the Subscription ARNs are accurate and valid.
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
+- **Apply the Terraform configuration**:
 
-Acknowledgments
-Thanks to AWS for providing the tools for serverless computing.
-Thanks to Terraform for making infrastructure management easier.
+```bash
+terraform apply
+```
 
+This will set up the **SNS Topic**, **Lambda Function**, and **CloudWatch Event Rule**.
 
-### Explanation of the README:
-1. **Overview**: Describes the purpose and functionality of the project (a car wash reminder system using AWS services).
-2. **Features**: Lists the key features of the Lambda function (automated reminders, SNS notifications, etc.).
-3. **Getting Started**: Provides instructions for cloning the repository, setting up AWS resources using Terraform, and deploying the Lambda function.
-4. **SNS Subscription ARNs**: Explains where to find and update the SNS Subscription ARNs for the users.
-5. **Example SNS ARNs**: Shows example SNS Subscription ARNs for each friend.
-6. **Troubleshooting**: Offers solutions to common issues like missed notifications or incorrect logic.
-7. **License**: Indicates that the project is licensed under the MIT License.
+### 4. Update SNS Subscription ARNs
 
-Let me know if you need more details or adjustments!
+In the `lambda_function.py` file, you'll need to replace the **SNS Subscription ARNs** with the actual subscription ARNs for your users.
+
+Example SNS Subscription ARNs for each user:
+- **Ziya**: `arn:aws:sns:us-east-1:211125457564:CarWashReminder:92dc4f1a-3ca5-4009-b918-50f4c370b403`
+- **Omer**: `arn:aws:sns:us-east-1:211125457564:CarWashReminder:57e4c29a-26cb-4c9f-9d26-10b1114d9dc3`
+- **Ogulcan**: `arn:aws:sns:us-east-1:211125457564:CarWashReminder:a77c881f-f877-461d-8aa2-8ca7e5d010e`
+- **Mesut**: `arn:aws:sns:us-east-1:211125457564:CarWashReminder:b7cbca87-0676-4733-852c-9aacaefa864f`
+
+### 5. Upload the Lambda Function
+
+The **Lambda function** is written in **Python** and deployed as a **ZIP file**. Ensure the file `lambda_function.zip` is ready and properly uploaded to Lambda.
+
+```bash
+zip lambda_function.zip lambda_function.py
+```
+
+Upload this zip file to the **Lambda function** in the AWS Console.
+
+### 6. Test the Lambda Function
+
+You can manually trigger the Lambda function from the **AWS Lambda Console** using a **test event** (e.g., `{}`). Check **CloudWatch Logs** to ensure the function works as expected.
+
+### 7. Monitor SNS Subscriptions
+
+Check that the **SNS subscription** for each person is correctly confirmed and that the reminders are being sent as expected.
+
+You can manage the SNS subscriptions via the **SNS Console**.
+
+## Example SNS Subscription ARN
+
+Here are the **SNS Subscription ARNs** for each person:
+- **Ziya**: `arn:aws:sns:us-east-1:211125457564:CarWashReminder:92dc4f1a-3ca5-4009-b918-50f4c370b403`
+- **Omer**: `arn:aws:sns:us-east-1:211125457564:CarWashReminder:57e4c29a-26cb-4c9f-9d26-10b1114d9dc3`
+- **Ogulcan**: `arn:aws:sns:us-east-1:211125457564:CarWashReminder:a77c881f-f877-461d-8aa2-8ca7e5d010e`
+- **Mesut**: `arn:aws:sns:us-east-1:211125457564:CarWashReminder:b7cbca87-0676-4733-852c-9aacaefa864f`
+
+## Troubleshooting
+
+- **No notifications sent**: Ensure the **SNS subscription** is confirmed (check email for email subscriptions and verify phone numbers for SMS).
+- **Incorrect notifications**: Double-check the `days_elapsed` logic and ensure the correct person is selected for the given day.
+- **Unsubscription issues**: Make sure the subscription ARNs are valid and correctly listed in the Lambda code.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- AWS for providing the infrastructure tools to build serverless applications.
+- Terraform for automating the deployment of AWS infrastructure.
+
