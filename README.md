@@ -37,6 +37,7 @@ The reminders are scheduled to rotate through a group of friends (Ziya, Omer, Og
 ```bash
 git clone https://github.com/ogulcanaydogan/CarWashReminder.git
 cd CarWashReminder
+```bash
 
 2. Set up AWS Resources using Terraform
 This project uses Terraform to provision the necessary AWS resources such as SNS topics, Lambda functions, and CloudWatch events.
