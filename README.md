@@ -78,10 +78,10 @@ This will set up the **SNS Topic**, **Lambda Function**, and **CloudWatch Event 
 In the `lambda_function.py` file, you'll need to replace the **SNS Subscription ARNs** with the actual subscription ARNs for your users.
 
 Example SNS Subscription ARNs for each user:
-- **Ziya**: `arn:aws:sns:us-east-1:211125457564:CarWashReminder:92dc4f1a-3ca5-4009-b918-50f4c370b403`
-- **Omer**: `arn:aws:sns:us-east-1:211125457564:CarWashReminder:57e4c29a-26cb-4c9f-9d26-10b1114d9dc3`
-- **Ogulcan**: `arn:aws:sns:us-east-1:211125457564:CarWashReminder:a77c881f-f877-461d-8aa2-8ca7e5d010e`
-- **Mesut**: `arn:aws:sns:us-east-1:211125457564:CarWashReminder:b7cbca87-0676-4733-852c-9aacaefa864f`
+- **Ziya**: `arn:aws:sns:us-east-1:AccountID:CarWashReminder:92dc4f1a-3ca5-4009-b918-50f4c370b403`
+- **Omer**: `arn:aws:sns:us-east-1:AccountID:CarWashReminder:57e4c29a-26cb-4c9f-9d26-10b1114d9dc3`
+- **Ogulcan**: `arn:aws:sns:us-east-1:AccountID:CarWashReminder:a77c881f-f877-461d-8aa2-8ca7e5d010e`
+- **Mesut**: `arn:aws:sns:us-east-1:AccountID:CarWashReminder:b7cbca87-0676-4733-852c-9aacaefa864f`
 
 ### 5. Upload the Lambda Function
 
@@ -106,10 +106,10 @@ You can manage the SNS subscriptions via the **SNS Console**.
 ## Example SNS Subscription ARN
 
 Here are the **SNS Subscription ARNs** for each person:
-- **Ziya**: `arn:aws:sns:us-east-1:211125457564:CarWashReminder:92dc4f1a-3ca5-4009-b918-50f4c370b403`
-- **Omer**: `arn:aws:sns:us-east-1:211125457564:CarWashReminder:57e4c29a-26cb-4c9f-9d26-10b1114d9dc3`
-- **Ogulcan**: `arn:aws:sns:us-east-1:211125457564:CarWashReminder:a77c881f-f877-461d-8aa2-8ca7e5d010e`
-- **Mesut**: `arn:aws:sns:us-east-1:211125457564:CarWashReminder:b7cbca87-0676-4733-852c-9aacaefa864f`
+- **Ziya**: `arn:aws:sns:us-east-1:AccountID:CarWashReminder:92dc4f1a-3ca5-4009-b918-50f4c370b403`
+- **Omer**: `arn:aws:sns:us-east-1:AccountID:CarWashReminder:57e4c29a-26cb-4c9f-9d26-10b1114d9dc3`
+- **Ogulcan**: `arn:aws:sns:us-east-1:AccountID:CarWashReminder:a77c881f-f877-461d-8aa2-8ca7e5d010e`
+- **Mesut**: `arn:aws:sns:us-east-1:AccountID:CarWashReminder:b7cbca87-0676-4733-852c-9aacaefa864f`
 
 ## Troubleshooting
 
@@ -125,4 +125,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - AWS for providing the infrastructure tools to build serverless applications.
 - Terraform for automating the deployment of AWS infrastructure.
-
