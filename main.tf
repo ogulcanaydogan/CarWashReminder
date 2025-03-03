@@ -55,7 +55,7 @@ resource "aws_lambda_function" "car_wash_reminder_function" {
 resource "aws_cloudwatch_event_rule" "daily_trigger" {
   name                = "DailyCarWashReminderTrigger"
 #   schedule_expression = "rate(1 day)"  # Trigger every day
-    schedule_expression = "cron(0 17 * * ? *)"  # Trigger every day at 5 PM UTC
+    schedule_expression = "cron(0 18 * * ? *)"  # Trigger every day at 6 PM UTC
 
   description = "Triggers the Lambda function to send a car wash reminder"
 }
